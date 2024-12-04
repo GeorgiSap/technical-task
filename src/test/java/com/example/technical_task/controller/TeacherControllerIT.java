@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,5 +52,54 @@ class TeacherControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id").value(testData.getTeacher1().getId().intValue()));
+    }
+
+    @Test
+    void createTeacher() throws Exception {
+        mockMvc.perform(post("/api/teachers")
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                  "name": "New Student",
+                                  "age": 20,
+                                  "teacherId": "123456"
+                                }"""))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("New Student"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.teacherId").value("123456"));
+    }
+
+    @Test
+    void updateTeacher() throws Exception {
+        mockMvc.perform(put("/api/teachers")
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                  "id": %d,
+                                  "name": "New Teacher",
+                                  "age": 20,
+                                  "teacherId": "123456"
+                                }""".formatted(testData.getStudyGroup1().getId())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("New Teacher"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.teacherId").value("123456"));
+    }
+
+    @Test
+    void updateTeacher_nonExistingId() throws Exception {
+        mockMvc.perform(put("/api/teachers")
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                  "id": %d,
+                                  "name": "New Teacher",
+                                  "age": 20,
+                                  "teacherId": "123456"
+                                }""".formatted(Integer.MAX_VALUE)))
+                .andExpect(status().isBadRequest());
     }
 }

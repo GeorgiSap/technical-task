@@ -41,13 +41,13 @@ class StudentControllerTest {
 
     @Test
     void getAllStudentsByCriteria_studentsAreOlderThanSpecificAgeAndParticipateInSpecificCourse() throws Exception {
-        mockMvc.perform(get("/api/students?age=20&courseId=1"))
+        mockMvc.perform(get("/api/students?ageGreaterThan=20&courseId=1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void getAllStudentsByCriteria_invalidStudentCriteria() throws Exception {
-        mockMvc.perform(get("/api/students?age=20"))
+        mockMvc.perform(get("/api/students?ageGreaterThan=20"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(INVALID_STUDENT_CRITERIA));
     }

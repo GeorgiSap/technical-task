@@ -15,5 +15,5 @@ public class StudentCriteria {
 
     private Long courseId;
 
-    private Integer age;
+    private Integer ageGreaterThan;
 }

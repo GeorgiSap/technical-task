@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -40,21 +42,22 @@ public class TeacherController {
     }
 
     @PostMapping
-    public ResponseEntity<TeacherDto> createTeacher(TeacherDto teacherDto) {
+    public ResponseEntity<TeacherDto> createTeacher(@RequestBody TeacherDto teacherDto) throws URISyntaxException {
         if (teacherDto.getId() != null) {
             throw new IllegalArgumentException("Id should be null");
         }
-        TeacherDto teacher = teacherService.save(teacherDto);
-        return ResponseEntity.ok(teacher);
+
+        teacherDto = teacherService.create(teacherDto);
+        return ResponseEntity.created(new URI("/api/teachers/" + teacherDto.getId())).body(teacherDto);
     }
 
     @PutMapping
-    public ResponseEntity<TeacherDto> updateTeacher(TeacherDto teacherDto) {
+    public ResponseEntity<TeacherDto> updateTeacher(@RequestBody TeacherDto teacherDto) {
         if (teacherDto.getId() == null) {
             throw new IllegalArgumentException("Id is required");
         }
-        TeacherDto teacher = teacherService.save(teacherDto);
-        return ResponseEntity.ok(teacher);
+        teacherDto = teacherService.update(teacherDto);
+        return ResponseEntity.ok(teacherDto);
     }
 
     @DeleteMapping("/{id}")

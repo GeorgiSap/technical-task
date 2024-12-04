@@ -16,4 +16,7 @@ public class StudentDto {
 
     @NotNull
     private String studentId;
+
+    @NotNull
+    private Long studyGroupId;
 }

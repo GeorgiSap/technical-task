@@ -1,7 +1,9 @@
 package com.example.technical_task.service;
 
+import com.example.technical_task.entity.Student;
 import com.example.technical_task.entity.Teacher;
 import com.example.technical_task.repository.TeacherRepository;
+import com.example.technical_task.service.dto.StudentDto;
 import com.example.technical_task.service.dto.TeacherDto;
 import com.example.technical_task.service.filter.TeacherCriteria;
 import com.example.technical_task.service.filter.TeacherSpecifications;
@@ -48,7 +50,16 @@ public class TeacherService {
     }
 
     @Transactional
-    public TeacherDto save(TeacherDto teacherDto) {
+    public TeacherDto create(TeacherDto teacherDto) {
+        return teacherMapper.toDto(teacherRepository.save(teacherMapper.toEntity(teacherDto)));
+    }
+
+    @Transactional
+    public TeacherDto update(TeacherDto teacherDto) {
+        if (!teacherRepository.existsById(teacherDto.getId())) {
+            throw new IllegalStateException("Teacher with id " + teacherDto.getId() + " not found");
+        }
+
         return teacherMapper.toDto(teacherRepository.save(teacherMapper.toEntity(teacherDto)));
     }
 

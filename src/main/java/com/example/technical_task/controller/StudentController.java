@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -44,21 +46,21 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<StudentDto> saveStudent(@RequestBody StudentDto studentDto) {
+    public ResponseEntity<StudentDto> saveStudent(@RequestBody StudentDto studentDto) throws URISyntaxException {
         if (studentDto.getId() != null) {
             throw new IllegalArgumentException("Id should be null");
         }
-        StudentDto student = studentService.save(studentDto);
-        return ResponseEntity.ok(student);
+        studentDto = studentService.create(studentDto);
+        return ResponseEntity.created(new URI("/api/students/" + studentDto.getId())).body(studentDto);
     }
 
     @PutMapping
     public ResponseEntity<StudentDto> updateStudent(@RequestBody StudentDto studentDto) {
         if (studentDto.getId() == null) {
-            throw new IllegalArgumentException("Id is required");
+            throw new IllegalStateException("Id is required");
         }
-        StudentDto student = studentService.save(studentDto);
-        return ResponseEntity.ok(student);
+        studentDto = studentService.update(studentDto);
+        return ResponseEntity.ok(studentDto);
     }
 
     @DeleteMapping("/{id}")
@@ -70,25 +72,25 @@ public class StudentController {
     private boolean noParametersProvided(StudentCriteria criteria) {
         return criteria.getStudyGroupId() == null &&
                 criteria.getCourseId() == null &&
-                criteria.getAge() == null;
+                criteria.getAgeGreaterThan() == null;
     }
 
     private boolean studentsParticipateInSpecificStudyGroup(StudentCriteria criteria) {
         return criteria.getStudyGroupId() != null &&
                 criteria.getCourseId() == null &&
-                criteria.getAge() == null;
+                criteria.getAgeGreaterThan() == null;
     }
 
     private boolean studentsParticipateInSpecificCourse(StudentCriteria criteria) {
         return criteria.getCourseId() != null &&
                 criteria.getStudyGroupId() == null &&
-                criteria.getAge() == null;
+                criteria.getAgeGreaterThan() == null;
     }
 
     private boolean studentsAreOlderThanSpecificAgeAndParticipateInSpecificCourse(StudentCriteria criteria) {
         return criteria.getCourseId() != null &&
                 criteria.getStudyGroupId() == null &&
-                criteria.getAge() != null;
+                criteria.getAgeGreaterThan() != null;
     }
 
 }

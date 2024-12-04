@@ -46,11 +46,17 @@ mvn test
 
 ---
 
+## Known Issues
+
+- Missing database configuration for tests.
+
+---
+
 ## Future Improvements
 
 - Introduce logging.
 - Add authentication and authorization.
 - Enable enrollment of students and teachers into courses and study groups
-- Create tests for CRUD operations.
+- Finalize tests for CRUD operations.
 - Introduce caching for total number of courses by type.
 - Add a mapping framework for DTOs.

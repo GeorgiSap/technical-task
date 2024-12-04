@@ -1,5 +1,6 @@
 package com.example.technical_task.service.mapper;
 
+import com.example.technical_task.entity.StudyGroup;
 import com.example.technical_task.service.dto.StudentDto;
 import com.example.technical_task.entity.Student;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class StudentMapper implements EntityMapper<Student, StudentDto> {
         dto.setName(entity.getName());
         dto.setAge(entity.getAge());
         dto.setStudentId(entity.getStudentId());
+        dto.setStudyGroupId(entity.getStudyGroup().getId());
         return dto;
     }
 
@@ -25,11 +27,16 @@ public class StudentMapper implements EntityMapper<Student, StudentDto> {
         if (dto == null) {
             return null;
         }
+
+        StudyGroup studyGroup = new StudyGroup();
+        studyGroup.setId(dto.getStudyGroupId());
+
         Student entity = new Student();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setAge(dto.getAge());
         entity.setStudentId(dto.getStudentId());
+        entity.setStudyGroup(studyGroup);
         return entity;
     }
 }
