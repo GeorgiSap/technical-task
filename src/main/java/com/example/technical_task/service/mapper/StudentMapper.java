@@ -1,8 +1,8 @@
 package com.example.technical_task.service.mapper;
 
+import com.example.technical_task.entity.Student;
 import com.example.technical_task.entity.StudyGroup;
 import com.example.technical_task.service.dto.StudentDto;
-import com.example.technical_task.entity.Student;
 import org.springframework.stereotype.Component;
 
 @Component

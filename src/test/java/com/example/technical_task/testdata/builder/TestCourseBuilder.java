@@ -7,11 +7,12 @@ import static com.example.technical_task.testdata.TestDataUtil.randomUniqueCours
 
 
 public class TestCourseBuilder {
-    public static Course.CourseBuilder builder() {
+    public static Course defaultCourse() {
         return Course
                 .builder()
                 .name(randomUniqueCourseName())
-                .type(CourseType.PRIMARY);
+                .type(CourseType.PRIMARY)
+                .build();
     }
 
 }

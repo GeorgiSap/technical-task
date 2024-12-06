@@ -8,16 +8,17 @@ import com.example.technical_task.repository.CourseRepository;
 import com.example.technical_task.repository.StudentRepository;
 import com.example.technical_task.repository.StudyGroupRepository;
 import com.example.technical_task.repository.TeacherRepository;
-import com.example.technical_task.testdata.builder.TestCourseBuilder;
-import com.example.technical_task.testdata.builder.TestStudentBuilder;
-import com.example.technical_task.testdata.builder.TestStudyGroupBuilder;
-import com.example.technical_task.testdata.builder.TestTeacherBuilder;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 
 import java.util.Set;
+
+import static com.example.technical_task.testdata.builder.TestCourseBuilder.defaultCourse;
+import static com.example.technical_task.testdata.builder.TestStudentBuilder.defaultStudent;
+import static com.example.technical_task.testdata.builder.TestStudyGroupBuilder.defaultGroup;
+import static com.example.technical_task.testdata.builder.TestTeacherBuilder.defaultTeacher;
 
 @TestConfiguration
 @Getter
@@ -53,37 +54,37 @@ public class TestDataConfiguration {
 
     @PostConstruct
     void setUp() {
-        course1 = courseRepository.save(TestCourseBuilder.builder().build());
-        course2 = courseRepository.save(TestCourseBuilder.builder().build());
-        course3 = courseRepository.save(TestCourseBuilder.builder().build());
+        course1 = courseRepository.save(defaultCourse());
+        course2 = courseRepository.save(defaultCourse());
+        course3 = courseRepository.save(defaultCourse());
 
-        studyGroup1 = studyGroupRepository.save(TestStudyGroupBuilder.builder().build());
-        studyGroup2 = studyGroupRepository.save(TestStudyGroupBuilder.builder().build());
-        studyGroup3 = studyGroupRepository.save(TestStudyGroupBuilder.builder().build());
+        studyGroup1 = studyGroupRepository.save(defaultGroup());
+        studyGroup2 = studyGroupRepository.save(defaultGroup());
+        studyGroup3 = studyGroupRepository.save(defaultGroup());
 
         teacher1 = teacherRepository.save(
-                TestTeacherBuilder.builder()
+                defaultTeacher().toBuilder()
                         .studyGroups(Set.of(studyGroup1, studyGroup2))
                         .courses(Set.of(course1))
                         .build()
         );
 
         teacher2 = teacherRepository.save(
-                TestTeacherBuilder.builder()
+                defaultTeacher().toBuilder()
                         .studyGroups(Set.of(studyGroup2))
                         .courses(Set.of(course1, course2))
                         .build()
         );
 
         teacher3 = teacherRepository.save(
-                TestTeacherBuilder.builder()
+                defaultTeacher().toBuilder()
                         .studyGroups(Set.of(studyGroup1, studyGroup2))
                         .courses(Set.of(course2))
                         .build()
         );
 
         student1 = studentRepository.save(
-                TestStudentBuilder.builder()
+                defaultStudent().toBuilder()
                         .studyGroup(studyGroup1)
                         .courses(Set.of(course1, course2))
                         .age(20)
@@ -91,7 +92,7 @@ public class TestDataConfiguration {
         );
 
         student2 = studentRepository.save(
-                TestStudentBuilder.builder()
+                defaultStudent().toBuilder()
                         .studyGroup(studyGroup2)
                         .courses(Set.of(course1))
                         .age(25)
@@ -99,7 +100,7 @@ public class TestDataConfiguration {
         );
 
         student3 = studentRepository.save(
-                TestStudentBuilder.builder()
+                defaultStudent().toBuilder()
                         .studyGroup(studyGroup1)
                         .courses(Set.of(course2))
                         .age(30)

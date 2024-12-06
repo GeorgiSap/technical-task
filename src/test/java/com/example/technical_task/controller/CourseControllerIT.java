@@ -1,6 +1,5 @@
 package com.example.technical_task.controller;
 
-import com.example.technical_task.testdata.builder.TestCourseBuilder;
 import com.example.technical_task.entity.CourseType;
 import com.example.technical_task.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.technical_task.testdata.builder.TestCourseBuilder.defaultCourse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,9 +27,9 @@ class CourseControllerIT {
 
     @Test
     void countCoursesByType_primaryCourses() throws Exception {
-        courseRepository.save(TestCourseBuilder.builder().type(CourseType.PRIMARY).build());
-        courseRepository.save(TestCourseBuilder.builder().type(CourseType.PRIMARY).build());
-        courseRepository.save(TestCourseBuilder.builder().type(CourseType.SECONDARY).build());
+        courseRepository.save(defaultCourse().toBuilder().type(CourseType.PRIMARY).build());
+        courseRepository.save(defaultCourse().toBuilder().type(CourseType.PRIMARY).build());
+        courseRepository.save(defaultCourse().toBuilder().type(CourseType.SECONDARY).build());
 
         mockMvc.perform(get("/api/courses/count")
                         .param("type", "PRIMARY"))
@@ -39,8 +39,8 @@ class CourseControllerIT {
 
     @Test
     void countCoursesByType_noCoursesOfType() throws Exception {
-        courseRepository.save(TestCourseBuilder.builder().type(CourseType.PRIMARY).build());
-        courseRepository.save(TestCourseBuilder.builder().type(CourseType.PRIMARY).build());
+        courseRepository.save(defaultCourse().toBuilder().type(CourseType.PRIMARY).build());
+        courseRepository.save(defaultCourse().toBuilder().type(CourseType.PRIMARY).build());
 
         mockMvc.perform(get("/api/courses/count")
                         .param("type", "SECONDARY"))

@@ -1,9 +1,7 @@
 package com.example.technical_task.service;
 
-import com.example.technical_task.entity.Student;
 import com.example.technical_task.entity.Teacher;
 import com.example.technical_task.repository.TeacherRepository;
-import com.example.technical_task.service.dto.StudentDto;
 import com.example.technical_task.service.dto.TeacherDto;
 import com.example.technical_task.service.filter.TeacherCriteria;
 import com.example.technical_task.service.filter.TeacherSpecifications;

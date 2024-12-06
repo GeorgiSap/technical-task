@@ -6,10 +6,11 @@ import java.util.UUID;
 
 
 public class TestStudyGroupBuilder {
-    public static StudyGroup.StudyGroupBuilder builder() {
+    public static StudyGroup defaultGroup() {
         return StudyGroup
                 .builder()
-                .name(UUID.randomUUID().toString());
+                .name(UUID.randomUUID().toString())
+                .build();
     }
 
 }
